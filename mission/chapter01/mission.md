@@ -1,5 +1,16 @@
 - 피어리뷰(Spring 1팀 빈)
+### 워크북 캡쳐
 
+![img.png](img.png)
+
+### 워크북 리뷰
+
+<aside>
+🌟
+
+on과 where의 차이가 단지 조건이라고 생각했는데, 실제 사용할 때 어떤 식으로 하는 지 쉬운 말로 풀어서 이해하기 좋았다.
+
+</aside>
 
 - **미션 기록**
 
@@ -9,17 +20,17 @@
   
     필요한 데이터 분류:
         - 평점, 내용, 생성일자를 사용자가 남긴 리뷰 DB에 넣어준다.
-    - INSERT VALUSE INTO REVIEW(score, text, user_id, store_id, created_at, updated_at)
-      VALUES(5, “음 맛있다”, 1, 1, NOW(), NOW());
+    - INSERT INTO review(score, text, user_id, store_id, created_at, updated_at)
+      VALUES(5, '음 맛있다', 1, 1, NOW(), NOW());
     - 설명: INSERT 쿼리를 사용해서 이름, 평점, 생성일자, 내용, 사진 등을 DB에 삽입한다.
 ### 2번 마이 페이지 화면 쿼리
 
     - 필요한 데이터 분류:
       사용자 테이블에서 이름, 메일, 번호, 포인트 가 필요하다.
-    - SELECT NAME, ADDRESS, BIRTH, USER_POINT
-      FROM USER
+    - SELECT name, email, phone_number, user_point
+      FROM user
       WHERE id = 1
-    설명: 내가 설계했던 DB에는 메일과 번호 데이터가 없어서 주소와 생년월일을 조회하기로 했다.
+    설명: 내가 설계했던 DB에는 메일과 번호 데이터가 없어서 ERD에 새로운 컬럼을 생성했다.
 
 ### 3번 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리
 (페이징 포함)
@@ -39,8 +50,8 @@
       JOIN mission m ON m.id = um.mission_id
       JOIN store s ON s.id = m.store_id
       WHERE user_id = 1
-      AND um.status = “success”
-      AND um.deleted_at = IS NULL
+      AND um.status = 'success'
+      AND um.deleted_at IS NULL
       AND um.id < 25
       ORDER BY um.id desc
       LIMIT 10
@@ -78,18 +89,19 @@
           DATEDIFF(m.mission_time, CURRENT_DATE()) AS d_day,
           m.content AS missoin_content,
           m.mission_point AS reward_point
-          FROM user_mission um
-          JOIN mission m ON um.mission_id = m.id
-          JOIN store s ON m.store_id = s.id
-          WHERE um.user_id = 1
-            AND um.status = “unactive”
-            AND um.deleted_at = IS NULL
-            ORDER BY m.mission_time ASC, um.id ASC
-            LIMIT 10 OFFSET 10
+          FROM mission m
+          JOIN store s ON m.store_id = s.id  
+          JOIN region r ON s.region_id = r.id  
+          WHERE r.name = '안암동'
+            AND m.id NOT IN(
+                SELECT mission_id
+                FROM user_mission
+                WHERE user_id = 1
+            )
+          ORDER BY m.mission_time ASC  
+          LIMIT 10 OFFSET 10
+
     -설명: 상단에는 사용자 테이블에서 주소와 사용자 포인트를 조회한다.
           프로그레스 바에서 사용자 미션에서 수행상태가 완료인 사용자 미션 개수를 센다.  
-          하단에서는 미션 테이블과 사용자 미션 테이블을 조인하고  
-          미션과 가게 테이블을 조인해서 정보를 받아온다. 조건에 수행하지 않은 미션을 두어
-          비활성화된 미션들을 조회한다. 직접 설계한 미션 테이블에 활성화 컬럼이 없어서 일단 임의로 직성했다.
-          남은 기한은 DATEDIFF이라는 MySql함수를 통해 일수 차이를 계산했다.
-          offset paging을 사용해서 10개씩 한 페이지 당 10개씩 보여주도록 했다.
+          지역 테이블과 가게 테이블을 조인하여 지역 필터링을 진행한다.
+          미션을 가져올 때 이미 사용자 미션에 있는 미션들은 가져오지 않는 서브쿼리를 작성한다.

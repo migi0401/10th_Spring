@@ -16,7 +16,7 @@
 
   ERD 사진
 
-![img_4.png](img_4.png)
+![img_5.png](img_5.png)
   설명
 
     <aside>
