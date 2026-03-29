@@ -1,3 +1,18 @@
+- 피어리뷰(Spring A팀 빈)
+### 워크북 캡쳐
+
+![img.png](img.png)
+
+### 워크북 리뷰
+
+<aside>
+🌟
+
+보통 멱등적인 예시만 생각하는데 멱등적이지 않게 작성된 코드를 가져와서 개선하는 예시가 있어서 이해가 쉬웠다.
+
+</aside>
+
+
 - 홈 화면
     - **API Endpoint**
 
@@ -15,7 +30,7 @@
 
         <aside>
 
-      ?name=”안암동”
+      ?regionName=안암동
 
         </aside>
 
@@ -39,11 +54,8 @@
                 "missionPoint": 500
               }
             ],
-            "listSize": 1,
-            "totalPage": 3,
-            "totalElements": 25,
-            "isFirst": true,
-            "isLast": false
+            "nextCursor": 12,
+            "hasNext": true
           }
         }
         ```
@@ -61,8 +73,6 @@
 
         ```json
         {
-        		"id": "1",
-        		"created_at": "2026-03-23",
         		"score": "4.5",
         		"text": "너무 맛있어요!"
         }
@@ -78,7 +88,7 @@
 
         ```json
         {
-        		"storeId": "3"
+        		"storeId": 3
         }
         ```
 
@@ -87,7 +97,7 @@
         ```json
         {
           "isSuccess": true,
-          "code": "COMMON200",
+          "code": "COMMON201",
           "message": "리뷰가 성공적으로 작성되었습니다.",
           "result": {
             "reviewId": 12,
@@ -113,7 +123,7 @@
 
         <aside>
 
-      ?status=success
+      ?status=SUCCESS
 
         </aside>
 
@@ -133,14 +143,11 @@
                 "storeName": "가게이름a",
                 "missionContent": "12,000원 이상의 식사를 하세요!",
                 "missionPoint": 500,
-                "status": "IN_PROGRESS"
+                "status": "SUCCESS"
               }
             ],
-            "listSize": 1,
-            "totalPage": 1,
-            "totalElements": 5,
-            "isFirst": true,
-            "isLast": true
+            "nextCursor": 12,
+            "hasNext": true
           }
         }
         ```
@@ -150,7 +157,7 @@
 
         <aside>
 
-      POST/api/mission/{userMissionId}
+      PATCH/api/mission/{userMissionId}
 
         </aside>
 
@@ -164,7 +171,7 @@
 
         ```json
         {
-        		"userMissionId" : "1"
+        		"userMissionId" : 1
         }
         ```
 
@@ -177,13 +184,12 @@
           "message": "미션 완료 처리에 성공했습니다.",
           "result": {
             "userMissionId": 15,
-            "status": "COMPLETED",
-            "userPoint": 1500
+            "status": "COMPLETED"
           }
         }
         ```
 
-- 회원 가입하기(소셜 로그인 고려x)
+- 회원 가입하기
     - **API Endpoint**
 
         <aside>
@@ -196,13 +202,12 @@
 
         ```json
         {
-        		"이름": "미키",
-        		"성별": "남",
-        		"주소": "인천광역시 미추홀구 xxx",
-        		"생년월일": "2003-04-01",
-        		"사용자 포인트": "0",
-        		"메일": "xxx@inha.edu",
-        		"전화번호": "010-xxxx-xxxx"
+        		"name": "미키",
+        		"gender": "남",
+        		"address": "인천광역시 미추홀구 xxx",
+        		"birth": "2003-04-01",
+        		"mail": "xxx@inha.edu",
+        		"phoneNumber": "010-xxxx-xxxx"
         }
         ```
 
