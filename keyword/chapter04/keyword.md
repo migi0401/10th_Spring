@@ -62,11 +62,7 @@
         - 어노테이션을 통해 API문서화 가능
         - API 변경이 발생할 때, 어노테이션 변경 필요
         - 많은 어노테이션은 코드 가독성 떨어지게 함
-    - <간단한 동작 예시>
-
-  ![image.png](attachment:e18d0205-ae23-4b90-b377-698c18326112:image.png)
-
-  ![image.png](attachment:42f3ff78-f569-4070-81b3-9fc26b1450d5:image.png)
+    ![img_1.png](img_1.png)- <간단한 동작 예시>
 
 
 
